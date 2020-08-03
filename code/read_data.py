@@ -46,7 +46,8 @@ def get_data(data_path, n_labeled_per_class, unlabeled_per_class=5000, max_seq_l
 
     # Here we only use the bodies and removed titles to do the classifications
     train_labels = np.array([v-1 for v in train_df[0]])
-    train_text = np.array([v for v in train_df[2]])
+    #train_text = np.array([v for v in train_df[2]])
+    train_text = train_df[2].to_numpy()
 
     #test_labels = np.array([u-1 for u in test_df[0]])
     #test_text = np.array([v for v in test_df[2]])
