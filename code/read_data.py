@@ -49,11 +49,11 @@ def get_data(data_path, n_labeled_per_class, unlabeled_per_class=5000, max_seq_l
     #train_text = np.array([v for v in train_df[2]])
     train_text = train_df[2].to_numpy()
 
-    #test_labels = np.array([u-1 for u in test_df[0]])
-    #test_text = np.array([v for v in test_df[2]])
+    test_labels = np.array([u-1 for u in test_df[0]])
+    test_text = test_df[2].to_numpy()
 
     #n_labels = max(test_labels) + 1
-    n_labels = max(train_labels) + 1
+    n_labels = max(test_labels) + 1
 
     # Split the labeled training set, unlabeled training set, development set
     train_labeled_idxs, train_unlabeled_idxs, val_idxs = train_val_split(
@@ -66,12 +66,12 @@ def get_data(data_path, n_labeled_per_class, unlabeled_per_class=5000, max_seq_l
         train_text[train_unlabeled_idxs], train_unlabeled_idxs, tokenizer, max_seq_len, Translator(data_path))
     val_dataset = loader_labeled(
         train_text[val_idxs], train_labels[val_idxs], tokenizer, max_seq_len)
-    #test_dataset = loader_labeled(
-    #    test_text, test_labels, tokenizer, max_seq_len)
-    test_dataset = []
+    test_dataset = loader_labeled(
+        test_text, test_labels, tokenizer, max_seq_len)
+
 
     print("#Labeled: {}, Unlabeled {}, Val {}, Test {}".format(len(
-        train_labeled_idxs), len(train_unlabeled_idxs), len(val_idxs), len(train_labels)))
+        train_labeled_idxs), len(train_unlabeled_idxs), len(val_idxs), len(test_labels)))
 
     return train_labeled_dataset, train_unlabeled_dataset, val_dataset, test_dataset, n_labels
 

@@ -106,8 +106,8 @@ def main():
         dataset=train_unlabeled_set, batch_size=args.batch_size_u, shuffle=True)
     val_loader = Data.DataLoader(
         dataset=val_set, batch_size=512, shuffle=False)
-    #test_loader = Data.DataLoader(
-    #    dataset=test_set, batch_size=512, shuffle=False)
+    test_loader = Data.DataLoader(
+        dataset=test_set, batch_size=512, shuffle=False)
     print("Loading Model")
     # Define the model, set the optimizer
     model = MixText(n_labels, args.mix_option).cuda()
@@ -150,13 +150,13 @@ def main():
         if val_acc >= best_acc:
             best_acc = val_acc
             print("Best acc! -  {} in epoch :{}".format(best_acc, epoch))
-            '''
+
             test_loss, test_acc = validate(
                 test_loader, model, criterion, epoch, mode='Test Stats ')
             test_accs.append(test_acc)
             print("epoch {}, test acc {},test loss {}".format(
                 epoch, test_acc, test_loss))
-            '''
+
 
         print('Epoch: ', epoch)
 
