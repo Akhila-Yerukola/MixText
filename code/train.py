@@ -97,6 +97,7 @@ print("Mix layers sets: ", args.mix_layers_set)
 def main():
     global best_acc
     # Read dataset and build dataloaders
+    print("Loading Data")
     train_labeled_set, train_unlabeled_set, val_set, test_set, n_labels = get_data(
         args.data_path, args.n_labeled, args.un_labeled, model=args.model, train_aug=args.train_aug)
     labeled_trainloader = Data.DataLoader(
@@ -105,9 +106,9 @@ def main():
         dataset=train_unlabeled_set, batch_size=args.batch_size_u, shuffle=True)
     val_loader = Data.DataLoader(
         dataset=val_set, batch_size=512, shuffle=False)
-    test_loader = Data.DataLoader(
-        dataset=test_set, batch_size=512, shuffle=False)
-
+    #test_loader = Data.DataLoader(
+    #    dataset=test_set, batch_size=512, shuffle=False)
+    print("Loading Model")
     # Define the model, set the optimizer
     model = MixText(n_labels, args.mix_option).cuda()
     model = nn.DataParallel(model)
@@ -148,11 +149,14 @@ def main():
 
         if val_acc >= best_acc:
             best_acc = val_acc
+            print("Best acc! -  {} in epoch :{}".format(best_acc, epoch))
+            '''
             test_loss, test_acc = validate(
                 test_loader, model, criterion, epoch, mode='Test Stats ')
             test_accs.append(test_acc)
             print("epoch {}, test acc {},test loss {}".format(
                 epoch, test_acc, test_loss))
+            '''
 
         print('Epoch: ', epoch)
 
